@@ -53,14 +53,18 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1757998554,
-        "narHash": "sha256-i8xkaD4fppKq8zBDuMYJt6DG2NJVn7+ua2LOkDZdWQw=",
-        "path": "/home/rpickler/devel/sees.ai/SeesInterface2.nix",
-        "type": "path"
+        "lastModified": 1757998551,
+        "narHash": "sha256-xnud3B+j3S17OJiwWu+yKxi4G7omSi83kiNJ7yTe1fk=",
+        "ref": "RP-nix",
+        "rev": "992e24d24524b377a1571181cd12d29c74500847",
+        "revCount": 3931,
+        "type": "git",
+        "url": "https://github.com/SEESAI/SeesInterface2"
       },
       "original": {
-        "path": "/home/rpickler/devel/sees.ai/SeesInterface2.nix",
-        "type": "path"
+        "ref": "RP-nix",
+        "type": "git",
+        "url": "https://github.com/SEESAI/SeesInterface2"
       }
     },
     "sops-nix": {

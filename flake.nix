@@ -2,8 +2,11 @@
   description = "Sees.Ai Nixos Configurations";
 
   nixConfig = {
-    access-tokens = [
-      "github.com=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"
+    extra-substituters = [
+      "https://attic.richardpickler.com/sees-ai"
+    ];
+    extra-trusted-public-keys = [
+      "sees-ai:rpfOAiYQBwEdvmMrgHzksYeNjosXcdzg2Jv4ieCOGw4="
     ];
   };
 
@@ -20,7 +23,9 @@
     };
 
     sees-interface = {
-      url = "/home/rpickler/devel/sees.ai/SeesInterface2.nix";
+      # have to use this format to get use .git-credentials
+      url = "git+https://github.com/SEESAI/SeesInterface2?ref=RP-nix";
+      #url = "/home/rpickler/devel/sees.ai/SeesInterface2.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
