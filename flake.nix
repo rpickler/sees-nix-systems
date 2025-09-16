@@ -19,9 +19,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sees-ai = {
-      url = "github:rpickler/sees-nix-packages";
-      #url = "/home/rpickler/devel/sees.ai/sees-nix-packages";
+    sees-interface = {
+      url = "/home/rpickler/devel/sees.ai/SeesInterface2.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

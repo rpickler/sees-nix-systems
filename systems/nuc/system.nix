@@ -24,11 +24,24 @@ let
 
     services.openssh.enable = true;
   };
+
+  pkgsOverride = (inputs: {
+    nixpkgs = {
+      hostPlatform = {
+        gcc.arch = "alderlake";
+        gcc.tune = "alderlake";
+        system = "x86_64-linux";
+      };
+    };
+  });
 in
 { 
-  system = "x86_64-linux";
   modules = [
-    {nixpkgs.overlays = [ inputs.sees-ai.overlay ];}
+    # https://nixos.wiki/wiki/Build_flags
+    # https://github.com/NixOS/nixpkgs/blob/master/lib/systems/architectures.nix
+    pkgsOverride
+
+    {nixpkgs.overlays = [ inputs.sees-interface.overlays.default ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
     ./hardware.nix
