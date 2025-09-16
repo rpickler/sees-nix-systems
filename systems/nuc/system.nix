@@ -2,7 +2,17 @@
 let
   config = {
     networking.hostName = "nuc";
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      system-features = [
+        "nixos-test"
+        "benchmark"
+        "big-parallel"
+        "kvm"
+        "gccarch-alderlake"
+      ];
+    };
+
     boot.loader = {
       efi.canTouchEfiVariables = true;
       grub = {
