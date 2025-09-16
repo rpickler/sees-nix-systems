@@ -53,11 +53,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1757998551,
-        "narHash": "sha256-xnud3B+j3S17OJiwWu+yKxi4G7omSi83kiNJ7yTe1fk=",
+        "lastModified": 1758021813,
+        "narHash": "sha256-HepddsJc/OiDSxlRoP8C1x/PWnOBMAIkH+C0n4xgdyM=",
         "ref": "RP-nix",
-        "rev": "992e24d24524b377a1571181cd12d29c74500847",
-        "revCount": 3931,
+        "rev": "c9e7b566b84e2541e62e2ecf9b66722defee2673",
+        "revCount": 3933,
         "type": "git",
         "url": "https://github.com/SEESAI/SeesInterface2"
       },
@@ -74,11 +74,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1757847158,
-        "narHash": "sha256-TumOaykhZO8SOs/faz6GQhqkOcFLoQvESLSF1cJ4mZc=",
+        "lastModified": 1758007585,
+        "narHash": "sha256-HYnwlbY6RE5xVd5rh0bYw77pnD8lOgbT4mlrfjgNZ0c=",
         "owner": "mic92",
         "repo": "sops-nix",
-        "rev": "ee6f91c1c11acf7957d94a130de77561ec24b8ab",
+        "rev": "f77d4cfa075c3de66fc9976b80e0c4fc69e2c139",
         "type": "github"
       },
       "original": {
