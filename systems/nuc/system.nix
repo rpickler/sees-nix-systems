@@ -56,8 +56,10 @@ in
     {nixpkgs.overlays = [ inputs.sees-interface.overlays.default ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
+    ../modules/sops.nix
     ../modules/core-dump-tracker.nix
     ../modules/disable-screensaver.nix
+    ../modules/sees-client-certificate.nix
     ./hardware.nix
     ./filesystems.nix
     ./SeesInterface2.nix
