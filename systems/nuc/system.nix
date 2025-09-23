@@ -35,29 +35,34 @@ let
     services.openssh.enable = true;
   };
 
-  pkgsOverride = (inputs: {
-    nixpkgs = {
-      hostPlatform = {
-        gcc.arch = "alderlake";
-        gcc.tune = "alderlake";
-        system = "x86_64-linux";
-      };
-    };
-  });
+  # Build everything highly optimized.  Appears problematic right now when
+  # remote building.
+  #pkgsOverride = (inputs: {
+  #  nixpkgs = {
+  #    hostPlatform = {
+  #      gcc.arch = "alderlake";
+  #      gcc.tune = "alderlake";
+  #      system = "x86_64-linux";
+  #    };
+  #  };
+  #});
 in
 { 
   modules = [
     # https://nixos.wiki/wiki/Build_flags
     # https://github.com/NixOS/nixpkgs/blob/master/lib/systems/architectures.nix
-    pkgsOverride
+    #pkgsOverride
 
     {nixpkgs.overlays = [ inputs.sees-interface.overlays.default ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
+    ../modules/core-dump-tracker.nix
     ./hardware.nix
     ./filesystems.nix
     ./SeesInterface2.nix
     config
   ];
   specialArgs = { inherit inputs; };
+
+  core-dump-tracker.dir = "/opt/sees/CoreDumps";
 }
