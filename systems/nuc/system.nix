@@ -37,6 +37,9 @@ let
 
   # Build everything highly optimized.  Appears problematic right now when
   # remote building.
+  #
+  # https://nixos.wiki/wiki/Build_flags
+  # https://github.com/NixOS/nixpkgs/blob/master/lib/systems/architectures.nix
   #pkgsOverride = (inputs: {
   #  nixpkgs = {
   #    hostPlatform = {
@@ -49,10 +52,6 @@ let
 in
 { 
   modules = [
-    # https://nixos.wiki/wiki/Build_flags
-    # https://github.com/NixOS/nixpkgs/blob/master/lib/systems/architectures.nix
-    #pkgsOverride
-
     {nixpkgs.overlays = [ inputs.sees-interface.overlays.default ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
@@ -61,6 +60,17 @@ in
     ../modules/disable-screensaver.nix
     ../modules/sees-client-certificate.nix
     ../modules/wireguard.nix
+    ../modules/sees-local-service.nix
+    # TODO: ../modules/supervisor.nix
+    # TODO: ../modules/sees-wizard.nix
+    # TODO: ../modules/vncserver.nix
+    # TODO: ../modules/ouster.nix
+    # TODO: ../modules/doodlelabs.nix
+    # TODO: ../modules/qgc.nix
+    # TODO: ../modules/sees-fastapi-server.nix
+    # TODO: ../modules/sees-backup-fpv.nix
+    # TODO: ../modules/mavlink-router.nix
+    # TODO: ../modules/mavsdk-server.nix
     ./hardware.nix
     ./filesystems.nix
     ./SeesInterface2.nix
