@@ -60,6 +60,7 @@ in
     ../modules/core-dump-tracker.nix
     ../modules/disable-screensaver.nix
     ../modules/sees-client-certificate.nix
+    ../modules/wireguard.nix
     ./hardware.nix
     ./filesystems.nix
     ./SeesInterface2.nix
