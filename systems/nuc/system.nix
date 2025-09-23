@@ -57,6 +57,7 @@ in
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
     ../modules/core-dump-tracker.nix
+    ../modules/disable-screensaver.nix
     ./hardware.nix
     ./filesystems.nix
     ./SeesInterface2.nix
