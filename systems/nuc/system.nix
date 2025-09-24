@@ -40,27 +40,38 @@ let
   #
   # https://nixos.wiki/wiki/Build_flags
   # https://github.com/NixOS/nixpkgs/blob/master/lib/systems/architectures.nix
-  #pkgsOverride = (inputs: {
-  #  nixpkgs = {
-  #    hostPlatform = {
+  pkgsOverride = (inputs: {
+    nixpkgs = {
+      hostPlatform = {
   #      gcc.arch = "alderlake";
   #      gcc.tune = "alderlake";
-  #      system = "x86_64-linux";
-  #    };
-  #  };
-  #});
+        system = "x86_64-linux";
+      };
+    };
+  });
 in
 { 
   modules = [
+    pkgsOverride
     {nixpkgs.overlays = [ inputs.sees-interface.overlays.default ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
-    ../modules/sops.nix
-    ../modules/core-dump-tracker.nix
-    ../modules/disable-screensaver.nix
-    ../modules/sees-client-certificate.nix
-    ../modules/wireguard.nix
-    ../modules/sees-local-service.nix
+    {
+      # I didn't name tmpfiles.
+      # https://discourse.nixos.org/t/is-it-possible-to-declare-a-directory-creation-in-the-nixos-configuration/27846
+      systemd.tmpfiles.rules = [
+        "d /opt/sees/bin"
+        "d /opt/sees/cache"
+      ];
+    }
+    ../../modules/sees-global-config.nix
+    #../modules/sops.nix
+    #../modules/core-dump-tracker.nix
+    #../modules/disable-screensaver.nix
+    #../modules/sees-client-certificate.nix
+    #../modules/wireguard.nix
+    # TODO: ../modules/mavsdk-server.nix
+    ../../modules/sees-local-service.nix
     # TODO: ../modules/supervisor.nix
     # TODO: ../modules/sees-wizard.nix
     # TODO: ../modules/vncserver.nix
@@ -70,7 +81,6 @@ in
     # TODO: ../modules/sees-fastapi-server.nix
     # TODO: ../modules/sees-backup-fpv.nix
     # TODO: ../modules/mavlink-router.nix
-    # TODO: ../modules/mavsdk-server.nix
     ./hardware.nix
     ./filesystems.nix
     ./SeesInterface2.nix
@@ -78,5 +88,5 @@ in
   ];
   specialArgs = { inherit inputs; };
 
-  core-dump-tracker.dir = "/opt/sees/CoreDumps";
+  #core-dump-tracker.dir = "/opt/sees/CoreDumps";
 }
