@@ -31,13 +31,21 @@
   };
 
   outputs = { self, nixpkgs, ... }@inputs: 
+  let
+      seesSystem = args: (
+        nixpkgs.lib.nixosSystem (
+          import ./systems/${args.type}/system.nix { 
+            inherit inputs; 
+            inherit (args) name;
+          }
+        ));
+  in
   {
-    nixosConfigurations = (
-      builtins.mapAttrs
-        (name: _: nixpkgs.lib.nixosSystem (
-          import ./systems/${name}/system.nix { inherit inputs; }
-        ))
-        (builtins.readDir ./systems)
-      );
+    nixosConfigurations = {
+      yealm-7 = seesSystem {
+        name = "yealm-7";
+        type = "nuc";
+      };
+    };
   };
 }

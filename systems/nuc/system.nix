@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ inputs, name, ... }:
 let
   config = {
-    networking.hostName = "nuc";
+    networking.hostName = name;
     nix.settings = {
       experimental-features = [ "nix-command" "flakes" ];
       system-features = [
