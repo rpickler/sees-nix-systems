@@ -28,6 +28,11 @@
       #url = "/home/rpickler/devel/sees.ai/SeesInterface2.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sees-cloud-services = {
+      url = "/home/rpickler/devel/sees.ai/SeesCloudServices.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs: 

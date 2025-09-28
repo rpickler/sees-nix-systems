@@ -53,7 +53,9 @@ in
 { 
   modules = [
     pkgsOverride
-    {nixpkgs.overlays = [ inputs.sees-interface.overlays.default ];}
+    {nixpkgs.overlays = [ 
+      inputs.sees-interface.overlays.default 
+    ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
     {
