@@ -32,11 +32,11 @@ in
         };
 
         app = {
-          mode = "${cfg.sls.mode}";
-          host_commands_scope = "${cfg.sls.das_power_command_scope}";
+          #mode = "${cfg.sls.mode}";
+          #host_commands_scope = "${cfg.sls.das_power_command_scope}";
           connection = {
             server = {
-              host = "${cfg.scs.domain_name}";
+              #host = "${cfg.scs.domain_name}";
               port = 443;
               secure = "yes";
             };

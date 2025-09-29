@@ -17,8 +17,37 @@
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
+  networking.useDHCP = lib.mkDefault false;
   # networking.interfaces.enp86s0.useDHCP = lib.mkDefault true;
+
+  # https://discourse.nixos.org/t/setup-networking-between-multiple-vms/44910
+  # https://brianlinkletter.com/2019/02/build-a-network-emulator-using-libvirt/
+  # https://netbeez.net/blog/how-to-use-the-linux-traffic-control/
+  # https://www.spad.uk/posts/really-simple-network-bridging-with-qemu/
+  networking = {
+    interfaces = {
+      eth0.useDHCP = false;
+      p2p.useDHCP = false;
+      o2 = {
+        useDHCP = false;
+        #ipv4.addresses = [
+        #  {
+        #    address = "192.168.1.1";
+        #    prefixLength = 24;
+        #  }
+        #];
+      };
+
+    };
+    bridges = {
+      "p2p" = {
+        interfaces = [ "p2p" ];
+      };
+      "o2" = {
+        interfaces = [ "o2" ];
+      };
+    };
+  };
 
   #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
