@@ -53,9 +53,9 @@ in
 { 
   modules = [
     pkgsOverride
-    {nixpkgs.overlays = [ 
-      inputs.sees-interface.overlays.default 
-    ];}
+      #{nixpkgs.overlays = [ 
+      #  inputs.sees-interface.overlays.default 
+      #];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
     {
@@ -73,7 +73,7 @@ in
     #../modules/sees-client-certificate.nix
     #../modules/wireguard.nix
     # TODO: ../modules/mavsdk-server.nix
-    ../../modules/sees-local-service.nix
+    #../../modules/sees-local-service.nix
     # TODO: ../modules/supervisor.nix
     # TODO: ../modules/sees-wizard.nix
     # TODO: ../modules/vncserver.nix
@@ -85,7 +85,7 @@ in
     # TODO: ../modules/mavlink-router.nix
     ./hardware.nix
     ./filesystems.nix
-    ./SeesInterface2.nix
+    #./SeesInterface2.nix
     config
   ];
   specialArgs = { inherit inputs; };
