@@ -1,4 +1,4 @@
-{ inputs, name, ... }:
+{ inputs, name, interfaces, ... }:
 let
   config = {
     networking.hostName = name;
@@ -33,6 +33,9 @@ let
     nix.settings.trusted-users = [ "rpickler" ];
 
     services.openssh.enable = true;
+
+    demo.network.interfaces = interfaces;
+    demo.network.hostname = name;
   };
 
   # Build everything highly optimized.  Appears problematic right now when
@@ -67,7 +70,7 @@ in
       ];
     }
     ../../modules/sees-global-config.nix
-    ../../modules/sees-routing-demo.nix
+    ../../modules/routing_demo/network.nix
     #../modules/sops.nix
     #../modules/core-dump-tracker.nix
     #../modules/disable-screensaver.nix

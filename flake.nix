@@ -42,19 +42,36 @@
           import ./systems/${args.type}/system.nix { 
             inherit inputs; 
             inherit (args) name;
+            inherit (args) interfaces;
           }
         ));
   in
   {
     nixosConfigurations = {
-      yealm-7 = seesSystem {
-        name = "yealm-7";
+      drone = seesSystem {
+        name = "drone";
         type = "nuc";
+          #interfaces = [ "p2p" ];
+          interfaces = [ "p2p" "o2" "ee" "voda" ];
       };
 
-      van-3 = seesSystem {
-        name = "van-3";
+      van = seesSystem {
+        name = "van";
         type = "nuc";
+          #interfaces = [ "p2p" ];
+          interfaces = [ "p2p" "o2" "ee" "voda" ];
+      };
+
+      cloud = seesSystem {
+        name = "cloud";
+        type = "nuc";
+        interfaces = [ "uplink" ];
+      };
+
+      gcs = seesSystem {
+        name = "gcs";
+        type = "nuc";
+        interfaces = [ "uplink" ];
       };
     };
   };
