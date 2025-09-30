@@ -67,6 +67,7 @@ in
       ];
     }
     ../../modules/sees-global-config.nix
+    ../../modules/sees-routing-demo.nix
     #../modules/sops.nix
     #../modules/core-dump-tracker.nix
     #../modules/disable-screensaver.nix

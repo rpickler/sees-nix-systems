@@ -51,6 +51,11 @@
         name = "yealm-7";
         type = "nuc";
       };
+
+      van-3 = seesSystem {
+        name = "van-3";
+        type = "nuc";
+      };
     };
   };
 }
