@@ -16,9 +16,12 @@ in
 
     mode = mkOption {
       type = str;
+      default = "sls";
     };
 
     das_power_command_scope = mkOption {
+      type = str;
+      default = "system";
     };
   };
 
@@ -36,21 +39,20 @@ in
           host_commands_scope = "${cfg.sls.das_power_command_scope}";
           connection = {
             server = {
-              host = "${cfg.scs.domain_name}";
+              host = "${cfg.domain_name}";
               port = 443;
               secure = "yes";
             };
-            access_token = ""; # TODO:
+            access_token = ""; # TODO: sops
             retry_delay_max = 32;
             retry_delay_gain = 2;
           };
 
           asset = {
-            serial_number = ""; # TODO:
+            serial_number = ""; # TODO: sops
           };
 
           sees_interface = "!include ${sees_interface_config}";
-
           
           #px4_monitor:
           #  tcp_url: "tcp:localhost:5760"
@@ -93,76 +95,79 @@ in
           #  power_commands_scope: {{ sls_das_power_cmd_scope }}
           #
           #          
-          #uploads:
-          #  upload_chunk_size: 16MiB
-          #
-          #          
-          #caching:
-          #  prefix: "{{ sls_cache_prefix }}"
-          #
-          #logging:
-          #  formatters:
-          #    # Default formatter used for pretty much every logger.
-          #    default: {}
-          #
-          #  handlers:
-          #    # Standard handler: output everything to STDOUT.
-          #    terminal:
-          #      class: logging.StreamHandler
-          #      level: INFO
-          #      formatter: default
-          #
-          #    log_file:
-          #      class: logging.handlers.TimedRotatingFileHandler
-          #      level: DEBUG
-          #      formatter: default
-          #      filename: "{{ sls_logs_dir }}/sees-local-service.log"
-          #      backupCount: 30
-          #      when: midnight
-          #
-          #    # Specific handler to inhibit SI2 output to not clutter STDOUT.
-          #    si2_null:
-          #      class: logging.NullHandler
-          #
-          #  loggers:
-          #    # Root logger to which (almost) every other logger should propagate.
-          #    "":
-          #      level: DEBUG
-          #      handlers:
-          #        - terminal
-          #        - log_file
-          #
-          #    # Specific logger for SI2 (once launched). This shouldn't propagate to reduce STDOUT clutter.
-          #    "SI2Monitor:App":
-          #      propagate: false
-          #      handlers:
-          #        - si2_null
-          #
-          #    # Specific configuration for loggers from third-party libraries.
-          #    "watchdog":
-          #      level: WARNING
-          #    "watchfiles.main":
-          #      level: WARNING
-          #    "mavsdk.async_plugin_manager":
-          #      level: ERROR
-          #    "mavsdk.system":
-          #      level: ERROR
-          #    "sees.mavlink":
-          #      level: ERROR
-          #    "asyncio":
-          #      level: CRITICAL
-          #    "websockets.client":
-          #      level: CRITICAL
-          #    "websockets.server":
-          #      level: CRITICAL
-          #    "asyncssh":
-          #      level: WARNING
-          #    "asyncssh.sftp":
-          #      level: WARNING
-          #    "urllib3":
-          #      level: WARNING
+
+          uploads = {
+            upload_chunk_size = "16MiB";
+          };
+
+          #caching = {
+          #  prefix  = "{{ sls_cache_prefix }}";
+          #};
+
+
+          logging = {
+            formatters = {
+              # Default formatter used for pretty much every logger.
+              default = {};
+            };
+
+            handlers = {
+              # Standard handler: output everything to STDOUT.
+              terminal = {
+                class = "logging.StreamHandler";
+                level = "INFO";
+                formatter = "default";
+              };
+
+              log_file = {
+                class = "logging.handlers.TimedRotatingFileHandler";
+                level = "DEBUG";
+                formatter = "default";
+                filename = "{{ sls_logs_dir }}/sees-local-service.log"; # TODO: 
+                  backupCount = 30;
+                when = "midnight";
+              };
+
+              # Specific handler to inhibit SI2 output to not clutter STDOUT.
+              si2_null = {
+                class = "logging.NullHandler";
+              };
+
+              loggers = {
+                # Root logger to which (almost) every other logger should propagate.
+                "root" = { # TODO: the yaml version "" = ... doesn't work under nix
+                  level = "DEBUG";
+                  handlers = [
+                    "terminal"
+                      "log_file"
+                  ];
+                };
+
+                # Specific logger for SI2 (once launched). This shouldn't propagate to reduce STDOUT clutter.
+                "SI2Monitor:App:" = {
+                  propagate = false;
+                  handlers = [
+                    "si2_null"
+                  ];
+                };
+
+                # Specific configuration for loggers from third-party libraries.
+                watchdog.level = "WARNING";
+                "watchfiles.main".level = "WARNING";
+                "mavsdk.async_plugin_manager".level = "ERROR";
+                "mavsdk.system".level = "ERROR";
+                "sees.mavlink".level = "ERROR";
+                asyncio.level = "CRITICAL";
+                "websockets.client".level = "CRITICAL";
+                "websockets.server".level = "CRITICAL";
+                asyncssh.level = "WARNING";
+                "asyncssh.sftp".level = "WARNING";
+                urllib3.level = "WARNING";
+              };
+            };
+          };
         };
-          #
+          
         sees_interface = {
           #
           ## Pick a specific app config to launch SeesInterface2 with
