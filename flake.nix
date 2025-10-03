@@ -30,7 +30,8 @@
     };
 
     sees-cloud-services = {
-      url = "/home/rpickler/devel/sees.ai/SeesCloudServices.nix";
+      url = "git+https://github.com/SEESAI/SeesCloudServices?ref=RP-nix";
+      #url = "/home/rpickler/devel/sees.ai/SeesCloudServices.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
