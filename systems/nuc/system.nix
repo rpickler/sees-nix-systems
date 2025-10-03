@@ -55,6 +55,7 @@ in
     pkgsOverride
     {nixpkgs.overlays = [ 
       inputs.sees-interface.overlays.default 
+      (import ../../packages/overlay.nix)
     ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
@@ -72,8 +73,9 @@ in
     #../modules/disable-screensaver.nix
     #../modules/sees-client-certificate.nix
     #../modules/wireguard.nix
-    # TODO: ../modules/mavsdk-server.nix
+    ../../modules/mavlink.nix
     ../../modules/sees-local-service.nix
+    # TODO: ../modules/mavsdk-server.nix
     # TODO: ../modules/supervisor.nix
     # TODO: ../modules/sees-wizard.nix
     # TODO: ../modules/vncserver.nix
@@ -82,7 +84,6 @@ in
     # TODO: ../modules/qgc.nix
     # TODO: ../modules/sees-fastapi-server.nix
     # TODO: ../modules/sees-backup-fpv.nix
-    # TODO: ../modules/mavlink-router.nix
     ./hardware.nix
     ./filesystems.nix
     ./SeesInterface2.nix

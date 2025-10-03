@@ -106,8 +106,8 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1759128389,
-        "narHash": "sha256-zz4VA3W9LPt19Cs3JDW8FNcPgZiCvKSaI9K1BdGL+4g=",
+        "lastModified": 1759405087,
+        "narHash": "sha256-XyFe+yAvLf+rfBt+W9p8S9L6z2nJvxHW6pA+8o9lm/o=",
         "path": "/home/rpickler/devel/sees.ai/SeesCloudServices.nix",
         "type": "path"
       },
