@@ -1,0 +1,182 @@
+# ==================================================================================================
+#  APPLICATION MODE
+# ==================================================================================================
+
+mode: "{{ sls_mode }}"
+
+# ==================================================================================================
+#  HOST COMMANDS
+# ==================================================================================================
+
+host_commands_scope: {{ sls_das_power_cmd_scope }}
+
+
+# ==================================================================================================
+#  CONNECTION MANAGER
+# ==================================================================================================
+
+connection:
+  server:
+    host: {{ scs_domain_name }}
+    port: 443
+    secure: yes
+
+  access_token: "{{ sls_asset_access_token }}"
+
+  retry_delay_max:  32
+  retry_delay_gain: 2
+
+
+# ==================================================================================================
+#  ASSET DETAILS
+# ==================================================================================================
+
+asset:
+  serial_number: "{{ sls_asset_serial_number }}"
+
+
+# ==================================================================================================
+#  SEESINTERFACE2 MONITOR
+# ==================================================================================================
+
+sees_interface: !include {{ sees_interface_config }}
+
+
+{%+ if sls_px4_enabled %}
+# ==================================================================================================
+#  PX4 MONITOR
+# ==================================================================================================
+
+px4_monitor:
+  tcp_url: "tcp:localhost:5760"
+  source_system: {{ mavsdk_server_qgroundcontrol_sysid }}
+  source_component: {{ mavsdk_server_qgroundcontrol_compid }}
+  mavsdk_server_address: "{{ sls_px4_server_host }}"
+  auto_query_interval: 5s
+  connect_timeout: 10s
+  command_timeout: 5s
+{% endif %}
+
+{%+ if sls_mode == 'das' %}
+# ==================================================================================================
+#  RAMS MONITOR SETTINGS
+# ==================================================================================================
+
+rams_monitor:
+  das_server:
+    bind_addr: 0.0.0.0
+    bind_port: {{ sls_das_server_port }}
+
+    log_client_messages: false
+
+  rams_client:
+    addr: {{ sls_das_rams_addr }}
+    port: {{ sls_das_rams_port }}
+
+    comms_timeout: 5s
+    log_client_messages: false
+
+    ws_open_timeout: 1s
+    ws_ping_interval: 5s
+    ws_ping_timeout: 5s
+    ws_close_timeout: 1s
+
+    ws_encoding: {{ sls_das_ws_encoding }}
+
+  sftp_server:
+    host: {{ sls_das_server_addr }}
+    port: {{ sls_das_sftp_port }}
+
+  survey_data:
+    export_format: json
+    export_filename: SurveyData
+
+  power_commands_scope: {{ sls_das_power_cmd_scope }}
+
+{% else %}
+# ==================================================================================================
+#  UPLOADER SETTINGS
+# ==================================================================================================
+
+uploads:
+  upload_chunk_size: 16MiB
+
+
+# ==================================================================================================
+#  FILE SYSTEM CACHING SETTINGS
+# ==================================================================================================
+
+caching:
+  prefix: "{{ sls_cache_prefix }}"
+{% endif %}
+
+
+# ==================================================================================================
+#  LOGGING
+#
+#   This section implements the Python Configuration Dictionary Schema defined here:
+#   https://docs.python.org/3.10/library/logging.config.html#logging-config-dictschema
+#
+# ==================================================================================================
+
+logging:
+  formatters:
+    # Default formatter used for pretty much every logger.
+    default: {}
+
+  handlers:
+    # Standard handler: output everything to STDOUT.
+    terminal:
+      class: logging.StreamHandler
+      level: INFO
+      formatter: default
+
+    log_file:
+      class: logging.handlers.TimedRotatingFileHandler
+      level: DEBUG
+      formatter: default
+      filename: "{{ sls_logs_dir }}/sees-local-service.log"
+      backupCount: 30
+      when: midnight
+
+    # Specific handler to inhibit SI2 output to not clutter STDOUT.
+    si2_null:
+      class: logging.NullHandler
+
+  loggers:
+    # Root logger to which (almost) every other logger should propagate.
+    "":
+      level: DEBUG
+      handlers:
+        - terminal
+        - log_file
+
+    # Specific logger for SI2 (once launched). This shouldn't propagate to reduce STDOUT clutter.
+    "SI2Monitor:App":
+      propagate: false
+      handlers:
+        - si2_null
+
+    # Specific configuration for loggers from third-party libraries.
+    "watchdog":
+      level: WARNING
+    "watchfiles.main":
+      level: WARNING
+    "mavsdk.async_plugin_manager":
+      level: ERROR
+    "mavsdk.system":
+      level: ERROR
+    "sees.mavlink":
+      level: ERROR
+    "asyncio":
+      level: CRITICAL
+    "websockets.client":
+      level: CRITICAL
+    "websockets.server":
+      level: CRITICAL
+    "asyncssh":
+      level: WARNING
+    "asyncssh.sftp":
+      level: WARNING
+    "urllib3":
+      level: WARNING

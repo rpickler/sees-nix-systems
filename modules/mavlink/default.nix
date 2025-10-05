@@ -5,31 +5,11 @@ in
 {
   config = 
     let
-      main_template = ''
-[UartEndpoint PX4]
-Device = {{ uart_device }}
-Baud = {{ uart_baud }}
-
-[UdpEndpoint QGC]
-Mode = Normal
-Address = 127.0.0.1
-Port = {{ udp_port_qgc }}
-
-[UdpEndpoint SLS]
-Mode = Normal
-Address = 127.0.0.1
-Port = {{ udp_port_sls }}
-
-[UdpEndpoint Spare]
-Mode = Normal
-Address = 127.0.0.1
-Port = {{ udp_port_unused }}
-      '';
-      jinja = (import ../lib/jinja.nix { inherit pkgs; });
-      mavlink_config = jinja "main.conf" main_template
+      main_template = builtins.readFile ./main.conf.j2;
+      mavlink_config = pkgs.sees-lib.jinja "main.conf" main_template
       {
-          uart_device = "";
-          uart_baud = "";
+          uart_device = "follows";
+          uart_baud = "bar";
           udp_port_qgc = "";
           udp_port_sls = "";
           udp_port_unused = "";

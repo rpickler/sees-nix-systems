@@ -1,0 +1,23 @@
+# ==================================================================================================
+#  SEESINTERFACE2 MONITOR
+# ==================================================================================================
+
+# Pick a specific app config to launch SeesInterface2 with
+program: "{{ sls_si2_program }}"
+root_dir: "{{ sls_si2_root_dir }}"
+log_path:
+  SeesInterface2: "{{ sls_si2_log_path }}"
+  SeesLocalService: "{{ sls_logs_dir }}"
+{%+ if sls_si2_args +%}
+args:
+{%+ for arg in sls_si2_args %}
+  - {{ arg }}
+{% endfor %}
+{% endif %}
+
+# Terminal output is captured in a ring buffer to send to the Cloud Services. This defines how
+# large that ring buffer is
+max_output_lines: 1_000
+
+# Allow SI2 plenty of time to close down
+sigint_timeout: 15s

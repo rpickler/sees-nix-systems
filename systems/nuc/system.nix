@@ -49,6 +49,7 @@ let
       };
     };
   });
+
 in
 { 
   modules = [
@@ -56,6 +57,7 @@ in
     {nixpkgs.overlays = [ 
       inputs.sees-interface.overlays.default 
       (import ../../packages/overlay.nix)
+      (import ../../overlays/sees-lib.nix)
     ];}
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
@@ -68,13 +70,13 @@ in
       ];
     }
     ../../modules/sees-global-config.nix
+    ../../modules/mavlink
+    ../../modules/sees-local-service
     #../modules/sops.nix
     #../modules/core-dump-tracker.nix
     #../modules/disable-screensaver.nix
     #../modules/sees-client-certificate.nix
     #../modules/wireguard.nix
-    ../../modules/mavlink.nix
-    ../../modules/sees-local-service.nix
     # TODO: ../modules/mavsdk-server.nix
     # TODO: ../modules/supervisor.nix
     # TODO: ../modules/sees-wizard.nix

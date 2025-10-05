@@ -1,0 +1,18 @@
+[UartEndpoint PX4]
+Device = {{ uart_device }}
+Baud = {{ uart_baud }}
+
+[UdpEndpoint QGC]
+Mode = Normal
+Address = 127.0.0.1
+Port = {{ udp_port_qgc }}
+
+[UdpEndpoint SLS]
+Mode = Normal
+Address = 127.0.0.1
+Port = {{ udp_port_sls }}
+
+[UdpEndpoint Spare]
+Mode = Normal
+Address = 127.0.0.1
+Port = {{ udp_port_unused }}
