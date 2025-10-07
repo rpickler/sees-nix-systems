@@ -34,7 +34,7 @@ in
           wantedBy = [ "multi-user.target" ];
           serviceConfig = {
             Type = "simple";
-            ExecStart = "${pkgs.mavsdk-server}/bin/mavsdk-server --sysid {{ mavsdk_server_default_sysid }} --compid {{ mavsdk_server_default_compid }} {{ connection_url }}";
+            ExecStart = "${pkgs.mavsdk}/bin/mavsdk-server --sysid {{ mavsdk_server_default_sysid }} --compid {{ mavsdk_server_default_compid }} {{ connection_url }}";
             Restart = "on-failure";
           };
         };
