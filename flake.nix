@@ -24,8 +24,8 @@
 
     sees-interface = {
       # have to use this format to get use .git-credentials
-      #url = "git+https://github.com/SEESAI/SeesInterface2?ref=RP-nix";
-      url = "/home/rpickler/devel/sees.ai/SeesInterface2.nix";
+      url = "git+https://github.com/SEESAI/SeesInterface2?ref=RP-nix";
+      #url = "/home/rpickler/devel/sees.ai/SeesInterface2.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
