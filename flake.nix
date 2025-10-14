@@ -34,9 +34,19 @@
       #url = "/home/rpickler/devel/sees.ai/SeesCloudServices.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    system-manager = {
+      url = "github:numtide/system-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-system-graphics = {
+      url = "github:soupglasses/nix-system-graphics";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: 
+  outputs = { self, nixpkgs, system-manager, nix-system-graphics, ... }@inputs: 
   let
       seesSystem = args: (
         nixpkgs.lib.nixosSystem (
@@ -51,6 +61,49 @@
       yealm-7 = seesSystem {
         name = "yealm-7";
         type = "nuc";
+      };
+    };
+
+    systemConfigs = 
+
+    rec {
+      default = ubuntu.nvidia;
+
+      ubuntu = {
+        nvidia = system-manager.lib.makeSystemConfig {
+          modules = [
+            nix-system-graphics.systemModules.default
+
+            ({
+              config =
+              let
+                pkgs = import nixpkgs {
+                  system = "x86_64-linux";
+                  config.allowUnfree = true;
+                };
+
+                      #nvidia-driver = ;
+              in {
+                nixpkgs.hostPlatform = "x86_64-linux";
+                system-manager.allowAnyDistro = true;
+                system-graphics.enable = true;
+                system-graphics.package = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; kernel = null; };
+              };
+            })
+          ];
+        };
+        amd = system-manager.lib.makeSystemConfig {
+          modules = [
+            nix-system-graphics.systemModules.default
+            ({
+              config = {
+                nixpkgs.hostPlatform = "x86_64-linux";
+                system-manager.allowAnyDistro = true;
+                system-graphics.enable = true;
+              };
+            })
+          ];
+        };
       };
     };
   };
