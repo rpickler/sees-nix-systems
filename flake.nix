@@ -67,7 +67,7 @@
     systemConfigs = 
 
     rec {
-      default = ubuntu.nvidia;
+      default = ubuntu.amd;
 
       ubuntu = {
         nvidia = system-manager.lib.makeSystemConfig {
