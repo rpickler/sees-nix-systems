@@ -67,7 +67,7 @@
     systemConfigs = 
 
     rec {
-      default = ubuntu.amd;
+      default = ubuntu.nvidia;
 
       ubuntu = {
         nvidia = system-manager.lib.makeSystemConfig {
@@ -82,13 +82,21 @@
                   config.allowUnfree = true;
                 };
 
-                      #nvidia-driver = ;
+                nvidia-driver = (pkgs.linuxPackages.nvidiaPackages.mkDriver {
+                    version = "580.65.06";
+                    sha256_64bit = "sha256-BLEIZ69YXnZc+/3POe1fS9ESN1vrqwFy6qGHxqpQJP8=";
+                    sha256_aarch64 = "";
+                    openSha256 = "";
+                    settingsSha256 = "";
+                    persistencedSha256 = "";
+                    patches = pkgs.linuxPackages.nvidiaPackages.legacy_580.patches;
+                }).override { libsOnly = true; kernel = null; };
               in {
                 nixpkgs.hostPlatform = "x86_64-linux";
                 system-manager.allowAnyDistro = true;
                 nix.settings.experimental-features = [ "nix-command" "flakes" ];
                 system-graphics.enable = true;
-                system-graphics.package = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; kernel = null; };
+                system-graphics.package = nvidia-driver;
               };
             })
           ];
@@ -99,6 +107,7 @@
             ({
               config = {
                 nixpkgs.hostPlatform = "x86_64-linux";
+                nix.settings.experimental-features = [ "nix-command" "flakes" ];
                 system-manager.allowAnyDistro = true;
                 system-graphics.enable = true;
               };
