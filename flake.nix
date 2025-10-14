@@ -64,9 +64,7 @@
       };
     };
 
-    systemConfigs = 
-
-    rec {
+    systemConfigs = rec {
       default = ubuntu.nvidia;
 
       ubuntu = {
@@ -101,6 +99,7 @@
             })
           ];
         };
+             
         amd = system-manager.lib.makeSystemConfig {
           modules = [
             nix-system-graphics.systemModules.default
