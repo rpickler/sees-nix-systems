@@ -86,6 +86,7 @@
               in {
                 nixpkgs.hostPlatform = "x86_64-linux";
                 system-manager.allowAnyDistro = true;
+                nix.settings.experimental-features = [ "nix-command" "flakes" ];
                 system-graphics.enable = true;
                 system-graphics.package = pkgs.linuxPackages.nvidia_x11.override { libsOnly = true; kernel = null; };
               };
