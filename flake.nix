@@ -92,7 +92,15 @@
               in {
                 nixpkgs.hostPlatform = "x86_64-linux";
                 system-manager.allowAnyDistro = true;
-                nix.settings.experimental-features = [ "nix-command" "flakes" ];
+                nix.settings = {
+                  experimental-features = [ "nix-command" "flakes" ];
+                  substituters = [
+                    "https://attic.richardpickler.com/sees-ai"
+                  ];
+                  trusted-public-keys = [
+                    "sees-ai:rpfOAiYQBwEdvmMrgHzksYeNjosXcdzg2Jv4ieCOGw4="
+                  ];
+                };
                 system-graphics.enable = true;
                 system-graphics.package = nvidia-driver;
               };
