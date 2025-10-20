@@ -71,16 +71,19 @@ in
       default = "";
     };
 
+    # Should come from sops
     asset_access_token = mkOption {
       type = str;
       default = "";
     };
 
+    # Should come from sops
     asset_serial_number = mkOption {
       type = str;
       default = "";
     };
 
+    # I believe these are irrelevant in the nix context.
     is_dev_version = mkOption {
       type = bool;
       default = false;
@@ -120,8 +123,10 @@ in
         {
           sees_interface_config = sees_interface_config;
 
+          sls_asset_serial_number = sops...;
+          sls_asset_access_token = sops....;
+
           sls_mode = cfg.sls.mode;
-          sls_asset_serial_number = cfg.sls.asset_serial_number;
           mavsdk_server_qgroundcontrol_sysid = cfg.mavsdk-server.default_sysid;
           mavsdk_server_qgroundcontrol_compid = cfg.mavsdk-server.default_compid;
           sls_px4_enabled = cfg.px4_enabled;
@@ -134,6 +139,11 @@ in
       sees_interface_config = pkgs.sees-lib.jinja "sees_interface_config.yml"
         (builtins.readFile ./sls_sees_interface.yml.j2)
         {
+          sls_si2_program = "";
+          sls_si2_root_dir = "";
+          sls_si2_log_path = "";
+          sls_logs_dir = "";
+          sls_si2_args = "";
         };
     in
     {
